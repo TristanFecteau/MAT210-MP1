@@ -1,0 +1,495 @@
+package mat210;
+
+/**
+ * Fichier distribué dans le cadre du cours MAT210, session automne 2021, à l'ÉTS.
+ *
+ * Par Xavier Provençal.
+ *
+ * Modifications par les étudiant·e·s : 
+ *  - TODO inscrivez vos noms ici.
+ *  - TODO inscrivez vos noms ici.
+ *  - TODO inscrivez vos noms ici.
+ */
+
+
+import java.nio.ByteBuffer;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.lang.Exception;
+import java.util.Random;
+import java.security.SecureRandom;
+import java.lang.RuntimeException;
+
+public class RSA {
+
+
+    public static String chiffre(Cle cleRSA, String message) {
+        // On récupère les infos de la clé, soit les entiers n et e.
+        Entier n = cleRSA.getModulo();
+        Entier e = cleRSA.getExposant();
+
+        // Pour choronométrer
+        long avant, apres, duree;
+
+        System.out.println("# Génération de la graine pour la génération du masque");
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 1. Gestion de la graine du générateur pseudo-aléatoire.
+        //
+
+        // Pour obtenir une graine "sécuritaire" on utilise la classe
+        // SecureRandom afin d'obtenir un nombre choisi aléatoirement.
+        SecureRandom secureRandom = new SecureRandom();
+        long graineAsLong = secureRandom.nextLong();
+
+        // Pour faciliter le débogage, on affecte toujours la même valeur à la graine.
+        // Lorsque votre code sera fonctionnel, il faudra retirer la ligne suivante :
+        graineAsLong = 2L; // TODO : vous serez pénalisés si cette ligne est encore là.
+
+        // On stocke la graine dans un objet de la classe Entier.
+        // On utilise la fonction Long.toUnsignedString car la graine est
+        // possiblement négative. Cette fonction force l'interprétation de la
+        // graine comme étant un nombre positif.
+        Entier graineAsEntier = new Entier(Long.toUnsignedString(graineAsLong));
+        System.out.println("# Graine du générateur pseudo-aléatoire : " + graineAsEntier);
+
+        // Validation de la taille de la clé RSA. 
+        // Si n est plus petit que la graine celle-ci ne peut pas être
+        // chiffrée.
+        if (n.plusPetitOuEgal(new Entier(graineAsEntier))) {
+            throw new RuntimeException("Erreur, la clé RSA est trop petite pour chiffre"
+                   + " la graine du générateur pseudo-aléatoire. L'exposant de la clé" 
+                   + " doit faire au moins 64 bits.");
+        }
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 2. Chiffrement de la graine via la méthode RSA
+        //
+        // Utilisez la clé RSA passée en paramètre afin de chiffrer la graine.
+        //
+
+        System.out.print("# Chiffrement RSA de la graine");
+        avant = System.nanoTime();
+
+        // TODO
+
+        apres = System.nanoTime();
+        duree = (apres-avant)/1000000;
+        System.out.println(" (calculé en " + duree + " ms)");
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 3. Convertir le message sous la forme d'un tableau d'octets
+        //
+        // Cette conversion est déjà codée et disponible via la fonction
+        // `public byte[] texteVersOctets(String texte)` de la classe
+        // Convertisseur.
+
+        // TODO
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 4. Construire le masque binaire.
+        //
+        // Il faut construire un tableau d'octets de la même taille que celui
+        // qui contient le message original.
+        //
+        // Aide : 
+        //
+        //  - pour obtenir la taille d'un tableau t, on fait `t.length`
+        //
+        //  - pour déclarer un tableau d'octets `t` de taille n, on fait `byte[] t = new byte[n];`
+        //
+        //  - pour inscrire octets aléatoires dans un tableau d'octets, on
+        //    utilise la fonction `public void nextBytes(byte[] bytes)` de la
+        //    classe Random.
+        //
+        //  - avant d'utiliser la fonction `nextBytes`, il faut initialiser un
+        //    objet de la classe `Random`. Assurez-vous que cet objet est
+        //    initialisé avec la graine obtenue à l'étape 1.
+        //
+        // Documentation : https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Random.html
+
+        System.out.print("# Génération d'un masque binaire");
+        avant = System.nanoTime();
+
+        // TODO
+
+        apres = System.nanoTime();
+        duree = (apres-avant)/1000000;
+        System.out.println(" (calculé en " + duree + " ms)");
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 5. Chiffrement du texte avec le masque binaire
+        //
+        // Aide : 
+        //
+        //  - En Java, l'opérateur xor (ou exclusif) est ^
+        //  - cet opérateur est définit uniquement sur le type int. Ainsi, si
+        //    p, q, r désigent trois octets, pour affecter `q xor r` dans `p`,
+        //    en Java, il faut écrire : `p = (byte) ( q ^ r );`
+        //
+        //  - Appliquez le masque binaire sur les octets du message original et
+        //    conservez le résultat dans un nouveau tableau d'octets.
+        //
+        //
+
+        System.out.print("# Chiffrement du message avec un masque binaire");
+        avant = System.nanoTime();
+
+        // TODO        
+
+        apres = System.nanoTime();
+        duree = (apres-avant)/1000000;
+        System.out.println(" (calculé en " + duree + " ms)");
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 6. Convertir les octets chiffrés en un entier.
+        //
+        // Pour cela, on utilise la fonction `public static Entier octetsVersEntier(byte[] octets)`
+        // de la classe `Convertisseur`.
+        //
+
+        // TODO
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 7. Retourner le message chiffré
+        //
+        // On construit une chaîne de caractères formée de :
+        //
+        // 1. la représentation textuelle de l'entier obtenu par le chiffrement de la clé (étape 4)
+        // 2. une virgule
+        // 3. la représentation textuelle de l'entier obtenu par le chiffrement du message (étape 6)
+        //
+        
+        // TODO        
+
+        return "bug"; // return bidon (pour que ça compile) À RETIRER !
+    }
+
+    public static String dechiffre(Cle cleRSA, String messageChiffre) {
+        // On récupère les infos de la clé
+        Entier n = cleRSA.getModulo();
+        Entier d = cleRSA.getExposant();
+
+        // Pour choronométrer
+        long avant, apres, duree;
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 1. Séparer les données
+        //
+        // Le message chiffré est de la forme : 234541356431564333,43514354361434356413543154354135
+        //
+        //  - le premier nombre est la graine du générateur pseudo-aléatoire chiffrée par le RSA.
+        //  - le deuxième nombre est le message chiffré par un masque binaire.
+        //
+        //  Utilisez la fonction `split` de la classe `String` afin de
+        //  récupérer les deux nombre sous la formed de chaînes de caractères,
+        //  puis utilisez le constructeur `Entier(String s)` pour construire
+        //  les entiers correspondants.
+        //
+        //  Documentation : https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#split(java.lang.String)
+        //
+       
+        // TODO
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 2. Déchiffrez la graine à l'aide de la clé RSA passée en paramères.
+        //
+
+        System.out.print("# Déchiffrement RSA de la graine");
+        avant = System.nanoTime();
+
+        // TODO
+
+        apres = System.nanoTime();
+        duree = (apres-avant)/1000000;
+        System.out.println(" (calculé en " + duree + " ms)");
+        System.out.println("# Graine du générateur pseudo-aléatoire : " ); // TODO afficher la graine
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 3. Déchiffrez la graine à l'aide de la clé RSA passée en paramères.
+        //
+        // Utilisez la fonction `Long.parseUnsignedLong(String s)` afin de
+        // convertir la graine en `Long`.
+        //
+        // Aide : 
+        //  - Étant donné un Entier e, on obtient sa représentation en String
+        //    en faisant `e.str()`.
+        //
+        // Note :
+        //  - Il est possible que le `long` obteniue soit négatif. Ce n'est pas
+        //    un problème. Cela sera expliqué en détail au cours #6.
+        //
+        
+        // TODO
+
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 4. Déchiffrer le message avec le masque binaire.
+        //
+        // La construction du masque binaire et son utilisation est identique à
+        // ce que vous avez fait à l'étape 5 de la fonction `chiffre`.
+        //
+        // N'oubliez pas d'initialiser correctement le générateur
+        // pseudo-aléatoire.
+        //
+        System.out.print("# Déchiffrement du message avec le masque binaire");
+        avant = System.nanoTime();
+
+        // TODO
+
+        apres = System.nanoTime();
+        duree = (apres-avant)/1000000;
+        System.out.println(" (calculé en " + duree + " ms)");
+
+        ///////////////////////////////////////////////////////////////////////////////////
+        //
+        // Étape 5. Convertir les octets déchiffrés en une chaîne de caractère.
+        //
+        // C'est déjà tout codé dans la classe `Convertisseur`.
+        //
+
+        // TODO        
+
+        return "bug"; // return bidon (pour que ça compile) À RETIRER !
+    }
+
+
+    public static void main(String[] args) {
+
+        // Si vous ne souhaitez pas utiliser les arguments de la ligne de
+        // commande, vous pouvez les simuler en réaffectant ``args`` sur un
+        // nouveau tableau de String.
+        // ATTENTION : pensez à commenter ces lignes AVANT de rendre votre travail !
+        //args = new String[] {"--chiffre", "--cle", "cle", "Boum"};
+        //args = new String[] {"--chiffre", "--cle", "cle", "Bonjour toto"};
+
+
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+//// À partir d'ici, tout ce qui suit n'est pas pertinant dans le cadre ////
+//// du cours MAT210.                                                   ////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+        String operation = null;;
+        String fichierCle = null;;
+        String messageOriginal = null;;
+
+        // Lecture des arguments de la ligne de commande
+        for (int i=0; i<args.length; ++i) {
+            if (args[i].equals("--chiffre")) {
+                operation = "chiffre";
+            } else if (args[i].equals("--dechiffre")) {
+                operation = "dechiffre";
+            } else if (args[i].equals("--cle")) {
+                fichierCle = args[i+1];
+                ++i;
+            } else if (args[i].equals("--demoConversion")) {
+                operation = "demo";
+            } else if (args[i].equals("--entierVersTexte")) {
+                operation = "entierVersTexte";
+            } else if (args[i].equals("--texteVersEntier")) {
+                operation = "texteVersEntier";
+            } else if (args[i].equals("--help")) {
+                usage();
+                System.exit(0);
+            } else {
+                messageOriginal = args[i];
+            }
+        }
+
+        if ((operation == null) 
+                || (operation.equals("--chiffre") && (messageOriginal == null))
+                || (operation.equals("--dechiffre") && (messageOriginal == null))
+           ) {
+            usage();
+            System.exit(1);
+        }
+
+        if (operation.equals("chiffre")) {
+            Cle cleRSA = new Cle(fichierCle);
+            //Entier x = chiffre(cleRSA, messageOriginal);
+            String c = chiffre(cleRSA, messageOriginal);
+            System.out.println(c);
+        } else if (operation.equals("dechiffre")) {
+            Cle cleRSA = new Cle(fichierCle);
+            String texte = dechiffre(cleRSA, messageOriginal);
+            System.out.println(texte);
+        } else if (operation.equals("demo")) {
+            demoConversion();
+        } else if (operation.equals("entierVersTexte")) {
+            System.out.println(Convertisseur.entierVersTexte(new Entier(messageOriginal)));
+        } else if (operation.equals("texteVersEntier")) {
+            System.out.println("" + Convertisseur.texteVersEntier(messageOriginal));
+        } else {
+            System.out.println("Option : " + operation + ", inconnue");
+            usage();
+            System.exit(1);
+        }
+
+    }
+
+    /**
+     * Affiche l'aide pour utiliser ce programme
+     */
+    private static void usage() {
+        System.out.println("\nUsages :\n\n" 
+                + "java RSA --chiffre --cle <fichierCle> \"message\"\n"
+                + "    Le paramètre \"message\" est d'abord converti en entier puis chiffré.\n"
+                + "    Le nombre résultant du chiffrement est affiché sur la sortie standard.\n"
+                + "\n"
+                + "java RSA --dechiffre --cle <fichierCle> N\n"
+                + "    Le paramètre N est un nombre, ce nombre est déchiffré puis converti en\n"
+                + "    chaîne de caractères. Cette chaîne est affichée sur la sortie standard.\n"
+                + "\n"
+                + "java RSA --texteVersEntier \"texte\"\n"
+                + "    Converti la chaîne de caractère \"texte\" en une entier.\n"
+                + "    Aucune cryptographie n'est impliquée dans cette conversion.\n"
+                + "\n"
+                + "java RSA --entierVersTexte N\n"
+                + "    Converti l'entier N en une chaîne de caractères.\n"
+                + "    Aucune cryptographie n'est impliquée dans cette conversion.\n"
+                + "\n"
+                + "java RSA --demoConversion\n"
+                + "    Affiche quelques exemples de conversion String <--> Entier.\n"
+                + "\n"
+                + "java RSA --help\n"
+                + "    Affiche cet aide.\n"
+                );
+    }
+
+    /**
+     * Affiche des exemples de conversion du texte en entier et vice-versa.
+     */
+    private static void demoConversion() {
+        String s;
+        Entier e;
+
+        s = "Bonjour";
+        e = Convertisseur.texteVersEntier(s);
+        System.out.println("\"" + s + "\" --> " + e);
+        s = Convertisseur.entierVersTexte(e);
+        System.out.println(e + " --> \'" + s + "\'\n");
+
+        s = "Message secret";
+        e = Convertisseur.texteVersEntier(s);
+        System.out.println("\"" + s + "\" --> " + e);
+        s = Convertisseur.entierVersTexte(e);
+        System.out.println(e + " --> \'" + s + "\'\n");
+
+        s = "Ceci est une texte pas mal long, vraiment long!";
+        e = Convertisseur.texteVersEntier(s);
+        System.out.println("\"" + s + "\" --> " + e);
+        s = Convertisseur.entierVersTexte(e);
+        System.out.println(e + " --> \'" + s + "\'\n");
+
+        s = "Support Unicode via UTF-8 :😀 😁 😅 😇 ";
+        e = Convertisseur.texteVersEntier(s);
+        System.out.println("\"" + s + "\" --> " + e);
+        s = Convertisseur.entierVersTexte(e);
+        System.out.println(e + " --> \'" + s + "\'\n");
+
+    }
+
+
+    /**
+     * Une clé RSA est formée de deux entiers. Il peut s'agit autant d'une clé
+     * de chiffrement que de déchiffrement.
+     *
+     * Le calcul du chiffrement/déchiffrement RSA est : 
+     *
+     * M^e mod n
+     *
+     * où M est le message
+     *    e est l'exposant
+     *    n est le modulo
+     *
+     * La paire (n, e) forme la clé RSA.
+     */
+    private static class Cle {
+        /**
+         * Une clé est construite à partir d'un fichier où les trois nombres n, d et e sont lus.
+         *
+         * @param fichier  fichier texte contenant la clé RSA
+         */
+        public Cle(String fichier) {
+            FileReader fr = null;
+            BufferedReader br = null;
+            try {
+                fr = new FileReader(fichier);
+                br = new BufferedReader(fr);
+                String s = br.readLine();
+                while (s != null) {
+                    if (!(s.isEmpty() || s.startsWith("#"))) {
+                        s = s.toLowerCase().trim().replaceAll("\\s+"," ");
+                        String[] t = s.split(" ");
+                        if (t[0].equals("n")) {
+                            modulo = new Entier(t[1]);
+                        } else if (t[0].equals("d")) {
+                            exposant = new Entier(t[1]);
+                        } else if (t[0].equals("e")) {
+                            exposant = new Entier(t[1]);
+                        } else {
+                            throw new Exception();
+                        }
+                    }
+                    s = br.readLine();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("ERREUR à la lecture de la clé dans le fichier ``" + fichier + "``");
+                System.exit(1);
+            } finally {
+                try {
+                    br.close();
+                    fr.close();
+                } catch (Exception e) {}
+            }
+        }
+
+        /**
+         * Retourne le modulo.
+         */
+        public Entier getModulo() {
+            return modulo;
+        }
+
+        /**
+         * Retourne l'exposant.
+         */
+        public Entier getExposant() {
+            return exposant;
+        }
+
+        private Entier modulo;
+        private Entier exposant;
+    }
+
+
+
+}
