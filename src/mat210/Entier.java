@@ -108,12 +108,16 @@ public class Entier {
         int decimale, retenue = 0;
         int lng = Math.max(this.longueur(), autre.longueur());
         for (int i=0; i<lng; ++i) {
+            
             // On utilise le fait que .getDecimale(i) retourne 0 si (i >= this.longueur())
             decimale = this.getDecimale(i) + autre.getDecimale(i);   // <--- bug
+            if (retenue!=0) {                      // <--- bug
+                decimale+=(retenue);
+            }
             retenue = decimale / 10;
             somme.decimales.add(decimale % 10);
         }
-        if (false) {                      // <--- bug
+        if (retenue!=0) {                      // <--- bug
             somme.decimales.add(retenue);
         }
         return somme;
@@ -133,7 +137,68 @@ public class Entier {
         //
         // À compléter.
         // 
-        return null; // return bidon (pour que ça compile) À RETIRER !
+        Entier somme=new Entier();
+        Entier produit,grand,petit;
+        int decimale = 0;
+        if(this.plusGrand(autre)){
+            grand=this;
+            petit=autre;
+        }else{
+            grand=autre;
+            petit=this;
+        }
+        for (int i=0; i<petit.longueur(); ++i) {
+            // On utilise le fait que .getDecimale(i) retourne 0 si (i >= this.longueur())
+            decimale = petit.getDecimale(i);
+            produit =grand.produit(decimale);
+              
+            somme=somme.somme(produit.ajouteZero(i));
+            
+        }
+        
+        
+        return somme;
+    }
+
+    public Entier ajouteZero(int qteeZeros){
+        if(qteeZeros<=0){return new Entier(this);}
+        Entier produit = new Entier();
+        for( int i=qteeZeros-1; i>=0; --i) {
+            produit.decimales.add(0);
+        }
+        int decimale = 0;
+        
+        for (int i=0; i<this.longueur(); ++i) {
+            decimale = this.getDecimale(i);   
+            produit.decimales.add(decimale);
+        }
+        
+        
+        return produit;
+    }
+    public Entier produit(int chiffre) {
+
+        // Exercice 2.
+        //
+        // À compléter.
+        // 
+        Entier produit=new Entier();
+        int decimale, retenue = 0;
+        
+        for (int i=0; i<this.longueur(); ++i) {
+            decimale = this.getDecimale(i) * chiffre;   
+                if (retenue!=0) {                      
+                    decimale+=(retenue);
+                }
+                retenue = decimale / 10;
+                produit.decimales.add(decimale % 10);
+        }
+        if (retenue!=0) {                      
+            produit.decimales.add(retenue);
+        }
+        
+        
+        return produit;
     }
     
 
