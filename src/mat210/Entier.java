@@ -213,7 +213,11 @@ public class Entier {
         //
         // À compléter.
         //
-        return null; // return bidon (pour que ça compile) À RETIRER !
+    	Entier puissance = new Entier(1);
+    	for (int i=0; i<p.toInt(); ++i) {
+    		puissance = puissance.produit(this);
+    	}
+    	return puissance;
     }
 
 
@@ -531,6 +535,10 @@ public class Entier {
             sb.append(getDecimale(i));
         }
         return sb.reverse().toString();
+    }
+    
+    public int toInt() {
+    	return (int)Integer.valueOf(this.str());
     }
 
 
