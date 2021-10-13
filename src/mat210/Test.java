@@ -48,7 +48,7 @@ public class Test {
 
         // ATTENTION : pensez à commenter ces lignes AVANT de rendre votre travail !
     	// Simplement changer le path ci-dessous pour exécuter les test d'un autre fichier
-    	File fileToTest = new File("src/tests/additions2");
+    	File fileToTest = new File("src/tests/puissanceMod");
     	System.out.println(fileToTest.getAbsolutePath());
     	args = new String[] {fileToTest.getAbsolutePath()};
         //

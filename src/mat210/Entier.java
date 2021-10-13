@@ -213,9 +213,14 @@ public class Entier {
         //
         // À compléter.
         //
+        
+        Entier un = new Entier(1);
+       
+    	Entier indice = new Entier(0);
     	Entier puissance = new Entier(1);
-    	for (int i=0; i<p.toInt(); ++i) {
+    	while (indice.plusPetit(p)) {
     		puissance = puissance.produit(this);
+            indice=indice.somme(un);
     	}
     	return puissance;
     }
@@ -229,13 +234,53 @@ public class Entier {
      * Cette fonction ne modifie pas l'entier actuel (this), ni celui spécifié en
      * paramètre. Un nouvel entier est retourné.
      */
+    public Entier moduloNaif(Entier m) {
+
+
+        //
+        //Exercice 4 mauvais modulo
+        Entier modulo=this;
+        while (modulo.plusGrand(m)){
+            modulo=modulo.soustraire(m);
+        }
+        return modulo;
+        
+        
+        
+        // return bidon (pour que ça compile) À RETIRER !
+    }
     public Entier modulo(Entier m) {
 
-        // Exercices 4 et 5.
+        // Exercice 5.
         //
         // À compléter.
         //
-        return null; // return bidon (pour que ça compile) À RETIRER !
+        /*Exercice 4 mauvais modulo
+        Entier modulo=this;
+        while (modulo.plusGrand(m)){
+            modulo=modulo.soustraire(m);
+        }
+        return modulo;
+        */
+        Entier un= new Entier(1);
+        Entier a=new Entier(0);
+        Entier b=new Entier(1);
+        Entier moyenne;
+        while(m.produit(b).plusPetitOuEgal(this)){
+            a=b;
+            b=b.produit(2);
+        }
+        while(b.soustraire(a).plusGrand(un) ){
+            moyenne=a.somme(b).divParDeux();
+            if(moyenne.produit(m).plusGrand(this)){
+                b=moyenne;
+            }else{
+                a=moyenne;
+            }
+        }
+        return this.soustraire( m.produit(a)) ;
+        
+        // return bidon (pour que ça compile) À RETIRER !
     }
 
     /**
@@ -250,7 +295,15 @@ public class Entier {
         //
         // À réécrire
         //
-        return (this.puissance(p)).modulo(m);
+        Entier un = new Entier(1);
+       
+    	Entier indice = new Entier(0);
+    	Entier puissance = new Entier(1);
+    	while (indice.plusPetit(p)) {
+    		puissance = puissance.produit(this).modulo(m);
+            indice=indice.somme(un);
+    	}
+        return puissance;
     }
 
     /**
