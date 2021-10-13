@@ -1,5 +1,7 @@
 package mat210;
 
+import java.io.File;
+
 /**
  * Fichier distribué dans le cadre du cours MAT210, session automne 2021, à l'ÉTS.
  *
@@ -45,8 +47,10 @@ public class Test {
         //
 
         // ATTENTION : pensez à commenter ces lignes AVANT de rendre votre travail !
-        //args = new String[] {"chemin complet vers le fichier de tests à exécuter"};
-        //args = new String[] {"C:\Mes Documents\Mon Dossier\MAT210\Tests\additions1"};
+    	// Simplement changer le path ci-dessous pour exécuter les test d'un autre fichier
+    	File fileToTest = new File("src/tests/additions2");
+    	System.out.println(fileToTest.getAbsolutePath());
+    	args = new String[] {fileToTest.getAbsolutePath()};
         //
         TestParser.executeFichierDeTests(args[0]);
     }

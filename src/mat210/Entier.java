@@ -108,7 +108,6 @@ public class Entier {
         int decimale, retenue = 0;
         int lng = Math.max(this.longueur(), autre.longueur());
         for (int i=0; i<lng; ++i) {
-            
             // On utilise le fait que .getDecimale(i) retourne 0 si (i >= this.longueur())
             decimale = this.getDecimale(i) + autre.getDecimale(i);   // <--- bug
             if (retenue!=0) {                      // <--- bug
