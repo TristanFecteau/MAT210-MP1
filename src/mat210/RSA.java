@@ -47,7 +47,7 @@ public class RSA {
         // Le chiffrement RSA demande de calculer ``M^e mod n``
         //
      
-        Entier C = (M.puissance(e)).modulo(n);
+        Entier C = (M.puissanceModulaire(e,n));
         
         //
         // Fin de l'exercice 7a
@@ -81,7 +81,7 @@ public class RSA {
         // Le déchiffrement RSA demande de calculer ``C^d mod n``
         //
         
-        Entier M = (C.puissance(d)).modulo(n);
+        Entier M = (C.puissanceModulaire(d,n));
         
         //
         // Fin de l'exercice 7b

@@ -319,12 +319,24 @@ public class Entier {
         //
         // À réécrire
         //
-        return (this.puissance(p)).modulo(m);
+        Entier un= new Entier(1);
+        Entier x,resultat;
+        if(p.plusPetit(un)){
+            return un;
+        }
+        else if(p.estPair()){
+            x= this.puissanceModulaire_exo_7(p.divParDeux(),m);
+            resultat= x.produit(x);
+        }else{
+            x= this.puissanceModulaire_exo_7(p.divParDeux(),m);
+            resultat= x.produit(x).produit(this);
+        }
+        return resultat.modulo(m);
     }
 
     public Entier puissanceModulaire(Entier p, Entier m) {
-        return this.puissanceModulaire_exo_6(p, m);
-        //return this.puissanceModulaire_exo_7(p, m);
+       // return this.puissanceModulaire_exo_6(p, m);
+        return this.puissanceModulaire_exo_7(p, m);
     }
 
 
