@@ -214,7 +214,11 @@ public class Entier {
         // À compléter.
         //
     	Entier puissance = new Entier(1);
-    	for (int i=0; i<p.toInt(); ++i) {
+    	double total = 0;
+    	for (int i=0; i<p.longueur(); ++i) {
+    		total += p.getDecimale(i)*Math.pow(10, i);
+        }
+    	for (int i=0; i<total; ++i) {
     		puissance = puissance.produit(this);
     	}
     	return puissance;
@@ -235,7 +239,11 @@ public class Entier {
         //
         // À compléter.
         //
-        return null; // return bidon (pour que ça compile) À RETIRER !
+    	Entier modulo = new Entier(this);
+    	while(modulo.plusGrandOuEgal(m)) {
+    		modulo = modulo.soustraire(m);
+    	}
+        return modulo;
     }
 
     /**
@@ -537,9 +545,5 @@ public class Entier {
         return sb.reverse().toString();
     }
     
-    public int toInt() {
-    	return (int)Integer.valueOf(this.str());
-    }
-
-
+    
 }
